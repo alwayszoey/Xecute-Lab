@@ -1,0 +1,218 @@
+{
+  "entities": {
+    "User": {
+      "title": "User",
+      "description": "User profile record for Xecute Lab member",
+      "type": "object",
+      "properties": {
+        "uid": { "type": "string", "description": "The Firebase Auth user ID" },
+        "email": { "type": "string", "format": "email", "description": "User email address" },
+        "displayName": { "type": "string", "description": "Display name or nickname", "maxLength": 100 },
+        "username": { "type": "string", "description": "Permanent store username", "maxLength": 100 },
+        "photoURL": { "type": "string", "description": "User profile avatar image URL or data" },
+        "role": { "type": "string", "enum": ["owner", "admin", "vip", "moderator", "user"], "description": "User role" },
+        "balance": { "type": "number", "description": "User credit or wallet balance in THB" },
+        "status": { "type": "string", "enum": ["active", "banned", "suspended"], "description": "Account status" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Account registration timestamp" },
+        "lastLoginAt": { "type": "string", "format": "date-time", "description": "Last login timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Profile update timestamp" }
+      },
+      "required": ["uid", "email"]
+    },
+    "Product": {
+      "title": "Product",
+      "description": "Store script, license key or source code product item",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Product document ID" },
+        "name": { "type": "string", "description": "Product title", "maxLength": 150 },
+        "categoryId": { "type": "string", "description": "Category document ID reference" },
+        "categoryName": { "type": "string", "description": "Cached category name" },
+        "price": { "type": "number", "description": "Authoritative selling price in THB" },
+        "originalPrice": { "type": "number", "description": "Strikethrough original price for discount display" },
+        "stock": { "type": "number", "description": "Available stock quantity" },
+        "imageUrl": { "type": "string", "description": "Product cover image URL" },
+        "badge": { "type": "string", "description": "Display badge e.g. HOT, VIP, NEW, SRC", "maxLength": 30 },
+        "tags": { "type": "array", "description": "Product feature tags" },
+        "description": { "type": "string", "description": "Product details and description" },
+        "customContent": { "type": "string", "description": "1. Custom page content / description / markdown or HTML" },
+        "customNoticeBox": { "type": "string", "description": "Custom notice or alert on product page" },
+        "purchaseType": { "type": "string", "enum": ["standard", "key", "button", "custom"], "description": "Purchase button type mode" },
+        "buttonText": { "type": "string", "description": "Custom buy button label" },
+        "buttonLink": { "type": "string", "description": "External action or Discord link for button mode" },
+        "keyFormat": { "type": "string", "description": "Key format mask or license key for key mode" },
+        "customFieldLabel": { "type": "string", "description": "Input label for custom mode" },
+        "customFieldPlaceholder": { "type": "string", "description": "Input placeholder for custom mode" },
+        "customNoteLabel": { "type": "string", "description": "Additional note prompt for custom mode" },
+        "customSuccessMessage": { "type": "string", "description": "Custom success message upon submission" },
+        "downloadUrl": { "type": "string", "description": "Script download link or license key instructions" },
+        "downloadContent": { "type": "string", "description": "Unrestricted script, download link, or custom delivery instructions" },
+        "videoUrl": { "type": "string", "description": "Product preview YouTube video URL" },
+        "wholesalePrice": { "type": "number", "description": "Wholesale or member price" },
+        "discountPercent": { "type": "number", "description": "Discount percentage" },
+        "effect": { "type": "string", "description": "Card visual effect: none, aurora, gold, rainbow_aura" },
+        "allowPoints": { "type": "boolean", "description": "Allow purchase with reward points" },
+        "pointPrice": { "type": "number", "description": "Points cost" },
+        "promoBuyCount": { "type": "number", "description": "Buy X promotion threshold" },
+        "promoFreeCount": { "type": "number", "description": "Free Y items promotion amount" },
+        "showSalesCount": { "type": "boolean", "description": "Show public sales count toggle" },
+        "isUnderMaintenance": { "type": "boolean", "description": "Maintenance mode toggle" },
+        "isOrderProduct": { "type": "boolean", "description": "Custom order product toggle" },
+        "requiresInput": { "type": "boolean", "description": "Requires custom user input toggle" },
+        "relatedProductIds": { "type": "array", "description": "List of up to 8 related product IDs" },
+        "images": { "type": "array", "description": "Gallery of product images (up to 5)" },
+        "isRecommended": { "type": "boolean", "description": "Whether to display in Recommended Products section" },
+        "isFeatured": { "type": "boolean", "description": "Whether to pin as featured" },
+        "status": { "type": "string", "enum": ["active", "out_of_stock", "hidden"], "description": "Product visibility status" },
+        "salesCount": { "type": "number", "description": "Total completed orders count" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Product creation timestamp" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Product update timestamp" }
+      },
+      "required": ["name", "price", "stock"]
+    },
+    "Category": {
+      "title": "Category",
+      "description": "Product category grouping",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Category document ID" },
+        "name": { "type": "string", "description": "Category display name", "maxLength": 100 },
+        "slug": { "type": "string", "description": "URL slug for category", "maxLength": 50 },
+        "imageUrl": { "type": "string", "description": "Category header banner image URL" },
+        "description": { "type": "string", "description": "Category summary description" },
+        "productCount": { "type": "number", "description": "Cached count of products in this category" },
+        "orderIndex": { "type": "number", "description": "Display sort order" },
+        "status": { "type": "string", "enum": ["active", "hidden"], "description": "Category visibility" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Creation timestamp" }
+      },
+      "required": ["name", "slug"]
+    },
+    "SiteSetting": {
+      "title": "SiteSetting",
+      "description": "General website configuration and announcement controls",
+      "type": "object",
+      "properties": {
+        "marqueeText": { "type": "string", "description": "Scrolling announcement ticker text" },
+        "storeStatus": { "type": "string", "enum": ["open", "maintenance", "closed"], "description": "Global store operational status" },
+        "maintenanceNotice": { "type": "string", "description": "Notice shown when maintenance mode is enabled" },
+        "bannerImageUrl": { "type": "string", "description": "Hero banner image URL" },
+        "heroTitle": { "type": "string", "description": "Home hero main title" },
+        "heroSubtitle": { "type": "string", "description": "Home hero subtitle" },
+        "announcementBadge": { "type": "string", "description": "Announcement badge label" },
+        "updatedAt": { "type": "string", "format": "date-time", "description": "Last settings update timestamp" }
+      }
+    },
+    "Order": {
+      "title": "Order",
+      "description": "Purchase transaction record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string", "description": "Order unique reference ID" },
+        "userId": { "type": "string", "description": "Buyer user UID" },
+        "userEmail": { "type": "string", "description": "Buyer user email" },
+        "productId": { "type": "string", "description": "Purchased product ID" },
+        "productName": { "type": "string", "description": "Purchased product name" },
+        "amount": { "type": "number", "description": "Total amount paid in THB" },
+        "status": { "type": "string", "enum": ["completed", "pending", "refunded", "cancelled"], "description": "Order status" },
+        "keyIssued": { "type": "string", "description": "Delivered license key or download code" },
+        "createdAt": { "type": "string", "format": "date-time", "description": "Order placement timestamp" }
+      },
+      "required": ["userId", "amount", "status"]
+    },
+    "LicenseKey": {
+      "title": "LicenseKey",
+      "description": "Digital goods license key record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "productId": { "type": "string" },
+        "productName": { "type": "string" },
+        "keyCode": { "type": "string" },
+        "isUsed": { "type": "boolean" },
+        "usedByEmail": { "type": "string" }
+      },
+      "required": ["productId", "keyCode"]
+    },
+    "AuditLog": {
+      "title": "AuditLog",
+      "description": "Administrative security audit activity record",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "adminEmail": { "type": "string" },
+        "action": { "type": "string" },
+        "details": { "type": "string" },
+        "category": { "type": "string" }
+      },
+      "required": ["adminEmail", "action"]
+    },
+    "Tag": {
+      "title": "Tag",
+      "description": "Master product feature tag",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "color": { "type": "string" }
+      },
+      "required": ["name"]
+    },
+    "ScriptUpdate": {
+      "title": "ScriptUpdate",
+      "description": "Script patch notes, safety status and version changelog",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "scriptName": { "type": "string" },
+        "game": { "type": "string" },
+        "version": { "type": "string" },
+        "title": { "type": "string" },
+        "status": { "type": "string", "enum": ["undetected", "updating", "testing", "patched"] },
+        "changelog": { "type": "array" },
+        "downloadUrl": { "type": "string" },
+        "releaseDate": { "type": "string" },
+        "createdAt": { "type": "string", "format": "date-time" },
+        "updatedAt": { "type": "string", "format": "date-time" }
+      },
+      "required": ["scriptName", "title", "status"]
+    }
+  },
+  "firestore": {
+    "/users/{userId}": {
+      "schema": { "$ref": "#/entities/User" },
+      "description": "User profile accounts"
+    },
+    "/products/{productId}": {
+      "schema": { "$ref": "#/entities/Product" },
+      "description": "Store script and license products"
+    },
+    "/categories/{categoryId}": {
+      "schema": { "$ref": "#/entities/Category" },
+      "description": "Store product categories"
+    },
+    "/site_settings/{settingId}": {
+      "schema": { "$ref": "#/entities/SiteSetting" },
+      "description": "Website CMS text, status, and marquee controls"
+    },
+    "/orders/{orderId}": {
+      "schema": { "$ref": "#/entities/Order" },
+      "description": "Purchase orders and transactions"
+    },
+    "/license_keys/{keyId}": {
+      "schema": { "$ref": "#/entities/LicenseKey" },
+      "description": "License keys vault"
+    },
+    "/audit_logs/{logId}": {
+      "schema": { "$ref": "#/entities/AuditLog" },
+      "description": "Security audit logs"
+    },
+    "/tags/{tagId}": {
+      "schema": { "$ref": "#/entities/Tag" },
+      "description": "Master tags"
+    },
+    "/script_updates/{updateId}": {
+      "schema": { "$ref": "#/entities/ScriptUpdate" },
+      "description": "Script patch notes and version updates"
+    }
+  }
+}

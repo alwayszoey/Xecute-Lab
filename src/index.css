@@ -1,0 +1,420 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   FC Vision & FC Vision Rounded Typography
+   ========================================================================== */
+
+@font-face {
+  font-family: 'FC Vision';
+  src: url('/fonts/FCVision-Regular.woff2') format('woff2');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FC Vision';
+  src: url('/fonts/FCVision-Medium.woff2') format('woff2');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FC Vision';
+  src: url('/fonts/FCVision-SemiBold.woff2') format('woff2');
+  font-weight: 600;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FC Vision';
+  src: url('/fonts/FCVision-Bold.woff2') format('woff2');
+  font-weight: 700;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FC Vision';
+  src: url('/fonts/FCVision-ExtraBold.woff2') format('woff2');
+  font-weight: 800;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'FC Vision Rounded';
+  src: url('/fonts/FCVisionRounded-Regular.ttf') format('truetype');
+  font-weight: 400 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* ==========================================================================
+   Design Tokens & Root Variables - Red Theme for Xecute Lab
+   ========================================================================== */
+
+:root {
+  --font-sans: "FC Vision", ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  --font-body: "FC Vision", ui-sans-serif, system-ui, sans-serif;
+  --font-heading: "FC Vision Rounded", "FC Vision", ui-sans-serif, system-ui, sans-serif;
+  
+  --xl-red: #ff1e27;
+  --xl-red-bright: #ff3b42;
+  --xl-red-deep: #dc141c;
+  --xl-red-dark: #8a0b10;
+  --xl-orange: #ff5722;
+  --xl-yellow: #ffa000;
+  
+  --join-us-border-light-color: #ff1e27;
+  --join-us-border-light-angle: 0deg;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #000000;
+  color: #ffffff;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom Sleek Scrollbar */
+::-webkit-scrollbar {
+  width: 7px;
+  height: 7px;
+}
+
+::-webkit-scrollbar-track {
+  background: #090909;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #252525;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  transition: background-color 0.2s ease;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #ff1e27;
+}
+
+h1, h2, h3, h4, h5, h6, .font-heading {
+  font-family: var(--font-heading);
+}
+
+/* ==========================================================================
+   Red Gradient Sheen & Animated Gradient for Xecute Lab Title
+   ========================================================================== */
+
+.red-gradient-anim {
+  background: linear-gradient(
+    120deg,
+    #ff1e27 0%,
+    #ff4b53 25%,
+    #ffffff 50%,
+    #ff1e27 75%,
+    #dc141c 100%
+  );
+  background-size: 250% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: redGradientShift 4s ease-in-out infinite alternate;
+  filter: drop-shadow(0 0 24px rgba(255, 30, 39, 0.45));
+}
+
+@keyframes redGradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  100% {
+    background-position: 100% 50%;
+  }
+}
+
+/* ==========================================================================
+   Authentic Animations (Red Themed)
+   ========================================================================== */
+
+@property --join-us-border-light-angle {
+  syntax: "<angle>";
+  inherits: false;
+  initial-value: 0deg;
+}
+
+/* 1. Spinning Border Light Effect */
+.join-us-border-light {
+  position: relative;
+  isolation: isolate;
+}
+
+.join-us-border-light::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: 5;
+  padding: 1.5px;
+  background: conic-gradient(
+    from var(--join-us-border-light-angle, 0deg),
+    transparent 0 74%,
+    color-mix(in srgb, var(--join-us-border-light-color, #ff1e27) 25%, transparent) 82%,
+    var(--join-us-border-light-color, #ff1e27) 90%,
+    color-mix(in srgb, var(--join-us-border-light-color, #ff1e27) 25%, transparent) 96%,
+    transparent 100%
+  );
+  filter: drop-shadow(0 0 5px var(--join-us-border-light-color, #ff1e27)) drop-shadow(0 0 14px var(--join-us-border-light-color, #ff1e27));
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  animation: 2.6s linear infinite join-us-border-light-spin;
+}
+
+@keyframes join-us-border-light-spin {
+  to {
+    --join-us-border-light-angle: 360deg;
+  }
+}
+
+/* ==========================================================================
+   Universal Button Styles (Matching User's Specified Button Design Pattern)
+   Top-highlight inset 1px, bottom-depth inset -2px, drop shadow & active press
+   Standard rounded corners (rounded-lg / rounded-xl), NOT rounded-full
+   ========================================================================== */
+
+/* Helper utilities for product detail snippet compatibility */
+.fi {
+  display: inline-flex;
+  align-items: center;
+}
+
+.text-primary {
+  color: var(--xl-red, #ff1e27);
+}
+
+.bg-primary {
+  background-color: var(--xl-red, #ff1e27);
+}
+
+.bg-primary\/90:hover {
+  background-color: #dc141c;
+}
+
+.bg-card {
+  background-color: #0d0d12;
+}
+
+.text-card-foreground {
+  color: #ffffff;
+}
+
+.text-subtitle {
+  color: rgba(255, 255, 255, 0.65);
+}
+
+.text-muted-foreground {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+.text-destructive {
+  color: #ff3b42;
+}
+
+.border-input {
+  border-color: rgba(255, 255, 255, 0.15);
+}
+
+.bg-background {
+  background-color: #121217;
+}
+
+.p-page {
+  padding-left: 1rem;
+  padding-right: 1rem;
+  padding-top: 1.5rem;
+  padding-bottom: 2.5rem;
+}
+
+@media (min-width: 640px) {
+  .p-page {
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+  }
+}
+
+/* Primary Action Button (Red Gradient) */
+.btn-primary, .xl-btn-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  background-image: linear-gradient(to bottom, #ff3b42, #b90e15);
+  color: #ffffff;
+  font-weight: 500;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.35),
+              inset 0 -2px 0 rgba(0, 0, 0, 0.25),
+              0 6px 14px rgba(0, 0, 0, 0.45);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-primary:hover, .xl-btn-primary:hover {
+  filter: brightness(1.12);
+}
+
+.btn-primary:active, .xl-btn-primary:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+              0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-primary:disabled, .xl-btn-primary:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+/* Secondary Button (Neutral / Dark Gradient with matching 3D depth) */
+.btn-secondary, .xl-btn-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.375rem;
+  background-image: linear-gradient(to bottom, #2a2a2a, #141414);
+  color: #ffffff;
+  font-weight: 500;
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2),
+              inset 0 -2px 0 rgba(0, 0, 0, 0.3),
+              0 6px 14px rgba(0, 0, 0, 0.45);
+  transition: all 0.15s ease-in-out;
+  cursor: pointer;
+}
+
+.btn-secondary:hover, .xl-btn-secondary:hover {
+  filter: brightness(1.18);
+  border-color: rgba(255, 255, 255, 0.22);
+}
+
+.btn-secondary:active, .xl-btn-secondary:active {
+  transform: translateY(2px);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.15),
+              inset 0 -1px 0 rgba(0, 0, 0, 0.25),
+              0 3px 8px rgba(0, 0, 0, 0.4);
+}
+
+.btn-secondary:disabled, .xl-btn-secondary:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+
+.hd-grid-bg {
+  background-size: 40px 40px;
+  background-image: 
+    linear-gradient(to right, rgba(255, 255, 255, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.05) 1px, transparent 1px);
+}
+
+/* Announcement Marquee Ticker */
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.animate-marquee {
+  display: flex;
+  width: max-content;
+  animation: marquee 28s linear infinite;
+}
+
+.animate-marquee:hover {
+  animation-play-state: paused;
+}
+
+/* Page fade-in and scale animations */
+@keyframes fadeInScale {
+  0% {
+    opacity: 0;
+    transform: translateY(8px) scale(0.995);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.animate-fade-in {
+  animation: fadeInScale 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+/* Subtle glow pulse */
+@keyframes redPulse {
+  0%, 100% {
+    opacity: 0.18;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.35;
+    transform: scale(1.04);
+  }
+}
+
+.animate-glow-pulse {
+  animation: redPulse 6s ease-in-out infinite;
+}
+
+/* Micro-interactions & Smooth tactile feedback */
+.interactive-card {
+  transition: transform 0.22s cubic-bezier(0.2, 0.8, 0.2, 1), 
+              border-color 0.22s ease, 
+              box-shadow 0.22s ease, 
+              background-color 0.22s ease;
+  will-change: transform;
+}
+
+.interactive-card:hover {
+  transform: translateY(-2px);
+  border-color: rgba(255, 30, 39, 0.35);
+  box-shadow: 0 12px 28px -8px rgba(0, 0, 0, 0.6), 0 0 18px rgba(255, 30, 39, 0.15);
+}
+
+.interactive-card:active {
+  transform: translateY(1px) scale(0.995);
+}
+
+.interactive-tap {
+  transition: transform 0.12s cubic-bezier(0.4, 0, 0.2, 1), filter 0.12s ease;
+}
+
+.interactive-tap:active {
+  transform: scale(0.96);
+}
+
+/* Smooth Float Animation */
+@keyframes floatSubtle {
+  0%, 100% {
+    transform: translateY(0);
+  }
+  50% {
+    transform: translateY(-4px);
+  }
+}
+
+.animate-float {
+  animation: floatSubtle 3.5s ease-in-out infinite;
+}
+
+
+
